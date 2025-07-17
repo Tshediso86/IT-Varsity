@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+    <p>Welcome, Please Log in</p>
+    
+    <form onsubmit="validateUser(event)">
+       <label for="username">Username:</label>
+       <input type="text" id="username" name="username"/><br>
+       <label for="password">Password:</label>
+       <input type="password" id="password" name="password"/>
+       <br><br>
+       <button type="submit">Login</button>
+    </form>
+    <div id="message"></div>
+    
+   <script>
+function validateUser(event) {
+    event.preventDefault(); // Prevent form from submitting
+    var username = document.getElementById("username").value.trim();
+    var password = document.getElementById("password").value;
+    var messageDiv = document.getElementById("message");
+
+    if (!username || !password) {
+        messageDiv.innerHTML = "Please enter both username and password.";
+        messageDiv.style.color = "red";
+        return;
+    }
+
+    validateCreds(username, password);
+}
+
+function validateCreds(username, password) {
+    var systemUsername = "diego";
+    var systemPassword = "1986";
+    var messageDiv = document.getElementById("message");
+
+    if (username === systemUsername && password === systemPassword) {
+        messageDiv.innerHTML = "Welcome";
+        messageDiv.style.color = "green";
+    } else {
+        messageDiv.innerHTML = "Invalid credentials, please try again.";
+        messageDiv.style.color = "red";
+        document.getElementById("password").value = "";
+    }
+}
+   </script> 
+</body>
+</html>

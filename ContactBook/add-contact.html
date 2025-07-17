@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<body>
+    <br/>
+    <form id="editForm">
+        <label for="firstname">firstname</label>
+        <input type="text" id="firstname" name="firstname"><br/>
+        <label for="lastname">lastname</label>
+        <input type="text" id="lastname" name="lastname"><br/>
+        <label for="mobile">mobile</label>
+        <input type="text" id="mobile" name="mobile"><br/>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email"><br/>
+        <label for="avatar">Select a file</label><br/>
+        <input type="file" id="avatar" name="avatar"><br/>
+        <button type="submit" id="submitForm">Submit</button>
+    </form>
+    <br/>
+    <button id="homeLink" type="button">Home</button>
+    <script src="config.js"></script>
+    <script>
+    document.getElementById("editForm").addEventListener('submit', submitForm);
+    document.getElementById("homeLink").addEventListener('click', homeLink);
+
+    function submitForm(e) {
+        e.preventDefault();
+        const form = new FormData(document.getElementById('editForm'));
+        form.append('apiKey', apiKey);
+        fetch(rootPath + 'controller/insert-contact/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, *.*',
+            },
+            body: form
+        })
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            if (data == "1") {
+                alert("Contact added.");
+                homeLink();
+            } else {
+                alert(data);
+                homeLink();
+            }
+        })
+        .catch(function(error) {
+            alert("Error: " + error);
+        });
+    }
+
+    function homeLink() {
+        window.open("index.html", "_self");
+    }
+    </script>
+</body>
+</html>

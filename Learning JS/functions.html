@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h id="heading" onclick="changeText()">MORONGOA</h1>
+    <p id="addition"></p>    
+
+<script>
+      document.getElementById("addition").innerHTML = addNumbers(6, 10);
+
+       function changeText(){
+        if(document.getElementById("heading").innerHTML=='MORONGOA')
+        {document.getElementById("heading").innerHTML='Is awesome!'}
+        else {document.getElementById("heading").innerHTML='MORONGOA'}
+    }
+    function addNumbers(num1, num2) {
+        return num1 + num2;
+    }
+</script>
+
+</body>

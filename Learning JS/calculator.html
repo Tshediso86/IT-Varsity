@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td colspan="4">
+            <input type="text" id="inputBox" value="0" readonly>
+        </td>
+    </tr>
+    <tr>
+        <td><button onclick="appendToInput('7')">7</button></td>
+        <td><button onclick="appendToInput('8')">8</button></td>
+        <td><button onclick="appendToInput('9')">9</button></td>
+        <td><button onclick="setOperation('/')">/</button></td>
+    </tr>
+    <tr>
+        <td><button onclick="appendToInput('4')">4</button></td>
+        <td><button onclick="appendToInput('5')">5</button></td>
+        <td><button onclick="appendToInput('6')">6</button></td>
+        <td><button onclick="setOperation('*')">*</button></td>
+    </tr>
+    <tr>
+        <td><button onclick="appendToInput('1')">1</button></td>
+        <td><button onclick="appendToInput('2')">2</button></td>
+        <td><button onclick="appendToInput('3')">3</button></td>
+        <td><button onclick="setOperation('-')">-</button></td>
+    </tr>
+    <tr>
+        <td><button onclick="appendToInput('0')">0</button></td>
+        <td><button onclick="appendToInput('.')">.</button></td>
+        <td><button onclick="clearInput()">AC</button></td>
+        <td><button onclick="setOperation('+')">+</button></td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <button onclick="calculateResult()">=</button>
+        </td>
+    </tr>
+</table>
+<script>
+let currentInput = "0";
+let firstOperand = null;
+let operation = null;
+let waitingForSecondOperand = false;
+
+function appendToInput(num) {
+    if (currentInput === "Error") {
+        currentInput = "0";
+    }
+    if (waitingForSecondOperand) {
+        currentInput = num === "." ? "0." : num;
+        waitingForSecondOperand = false;
+    } else {
+        if (num === ".") {
+            if (!currentInput.includes(".")) {
+                currentInput += ".";
+            }
+        } else {
+            currentInput = currentInput === "0" ? num : currentInput + num;
+        }
+    }
+    updateDisplay();
+}
+
+function setOperation(op) {
+    if (currentInput === "Error") return;
+    if (firstOperand === null) {
+        firstOperand = parseFloat(currentInput);
+    } else if (operation && !waitingForSecondOperand) {
+        firstOperand = operate(firstOperand, parseFloat(currentInput), operation);
+        currentInput = firstOperand.toString();
+        updateDisplay();
+    }
+    operation = op;
+    waitingForSecondOperand = true;
+}
+
+function calculateResult() {
+    if (operation && firstOperand !== null && !waitingForSecondOperand) {
+        let result = operate(firstOperand, parseFloat(currentInput), operation);
+        currentInput = result.toString();
+        if (currentInput === "Error") {
+            firstOperand = null;
+            operation = null;
+            waitingForSecondOperand = false;
+        } else {
+            firstOperand = result;
+            operation = null;
+            waitingForSecondOperand = true;
+        }
+        updateDisplay();
+    }
+}
+
+function clearInput() {
+    currentInput = "0";
+    firstOperand = null;
+    operation = null;
+    waitingForSecondOperand = false;
+    updateDisplay();
+}
+
+function updateDisplay() {
+    document.getElementById("inputBox").value = currentInput;
+}
+
+function operate(a, b, op) {
+    switch (op) {
+        case "+": return a + b;
+        case "-": return a - b;
+        case "*": return a * b;
+        case "/": return b !== 0 ? a / b : "Error";
+        default: return b;
+    }
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<p id="outputText"></p>
+
+<script>
+var text1="10"
+var text2="5"
+
+var numb1 = stringToNumber(text1);
+var numb2 = stringToNumber(text2);
+
+if (isNaN(numb1)||isNaN(numb2)){
+document.getElementById("outputText").innerHTML = "invalid number input, please try again";
+}
+else{
+document.getElementById("outputText").innerHTML = numb1 + numb2; 
+}
+
+function stringToNumber(text){
+    return parseInt(text);
+
+}
+</script>
+</body>
+</html>
